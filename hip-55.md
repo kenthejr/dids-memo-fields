@@ -43,13 +43,19 @@ When used in a memo field of a Hedera entity, DIDs could be used to
 
 ## Specification
 
-### Binding DID to Hedera entity 
+### Syntax
+
+talk about the structure of a Hedera DID, its components, its size and how to place within a memo.
+
+### Processes
+
+#### Binding DID to Hedera entity 
 
 1. Create key pair and associated DID as per Hedera DID Method 
 2. Register DID into appnet with HCS message carrying DID Document against appropriate HCS topic as per Hedera DID Method 
 3. Include DID in memo field when creating or updating entity 
 
-### Resolving Hedera Entity DID 
+#### Resolving Hedera Entity DID 
  
  1. Query Hedera entity info from mainnet or mirror, e.g. HAPI TokenGetInfo 
  2. Extract DID from memo field 
