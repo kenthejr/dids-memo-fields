@@ -6,8 +6,8 @@ type: Standards Track
 category: Application
 status: Draft
 created: 2020-3-16
-discussions-to: https://github.com/hashgraph/hedera-improvement-proposal/issues/40
-updated: 2020-3-08
+discussions-to: 
+updated: 2020-3-16
 requires:
 replaces:
 superseded-by:
@@ -19,7 +19,7 @@ This specification provides a standard way to use Decentralized Identifiers (DID
 
 ## Motivation
 
-Entities on Hedera now have a memo field. Decentralized Identifiers (DIDs) [0], as supported by the Hedera DID Method, provide a useful format for populating the memo fields. 
+Entities on Hedera now have a memo field. Decentralized Identifiers (DIDs) [0], as supported by the Hedera DID Method [1], provide a useful format for populating the memo fields. 
 
 Relative to other identifier formats, DIDs have the advantages of  
 
@@ -38,7 +38,7 @@ When used in a memo field of a Hedera entity, DIDs could be used to
 - Link a Hedera entity to an external service, for instance a DID on an HTS token could represent the KYC provider that administers the KYC flag on user accounts 
 - Link a Hedera entity to a different public key than of the owner/admin – enabling off-ledger authenticated interactions between that owner and other parties (without reusing Hedera keys) 
 - Link two different Hedera entities, for instance an HCS topic and a corresponding HTS token 
-- Link a Hedera entity to appropriate certifications about the actors that own or mange that entity, for instance, the renewable energy certifications (using the Verrifiable Credentiqals [1] standard) of an inverter as validated by a 3rd party
+- Link a Hedera entity to appropriate certifications about the actors that own or mange that entity, for instance, the renewable energy certifications (using the Verifiable Credentials [2] standard) of an inverter as validated by a 3rd party
 
 
 ## Specification
@@ -84,7 +84,8 @@ N/A
 ## References
 
 [0] https://www.w3.org/TR/did-core/
-[1] https://www.w3.org/TR/vc-data-model/
+[1] https://github.com/hashgraph/did-method
+[2] https://www.w3.org/TR/vc-data-model/
 
 
 ## Copyright/license
