@@ -19,15 +19,21 @@ This specification provides a standard way to use Decentralized Identifiers (DID
 
 ## Motivation
 
-Entities on Hedera now have a memo field. Decentralized Identifiers (DIDs) [0], as supported by the Hedera DID Method [1], provide a useful format for populating the memo fields. 
+Entities (such as accounts, topics, adn tokens) on Hedera have a memo field, allowing for an arbitrary string (less than 100 bytes) to be attached to the entity. Entity memos are distinct from memos on transactions, the memo on an entity is persisted in Hedera state.
+
+Decentralized Identifiers (DIDs) [0], as supported by the Hedera DID Method [1], provide a useful format for populating the memo fields. 
+
+According to the W3C, a DID, is “a globally unique identifier that does not require a centralized registration authority because it is registered with distributed ledger technology or other form of decentralized network.”
+
+DIDs can be dereferenced or resolved to a DID Document - a set of data that describes the subject of a DID, including mechanisms, such as public keys that the DID subject can use to authenticate itself and prove their association with the DID. DID Documents are graph-based data structures that are typically expressed using JSON-LD.
 
 Relative to other identifier formats, DIDs have the advantages of  
 
 - Standardized 
 - Guaranteed global uniqueness 
-- Resolvable into a JSON DID Document carrying useful metadata , e.g. keys , endpoints, etc. 
+- Resolvable into a DID Document carrying useful metadata , e.g. keys , endpoints, etc. 
 - Can be cryptographically ‘claimed’ by creating a signature with a private key that corresponds to the public key & signature within the DID Document   
-- When registered via HCS, provable provenance of changes to the DID Document, e.g. for key rotation, introduction of additional endpoints etc. 
+- When their lifecycle is tracked via HCS as in the Hedera DID Method, provable provenance of changes to the DID Document, e.g. for key rotation, introduction of additional endpoints etc. 
 
 
 ## Rationale
