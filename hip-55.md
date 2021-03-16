@@ -19,7 +19,7 @@ This specification provides a standard way to use Decentralized Identifiers (DID
 
 ## Motivation
 
-Entities (such as accounts, topics, adn tokens) on Hedera have a memo field, allowing for an arbitrary string (less than 100 bytes) to be attached to the entity. Entity memos are distinct from memos on transactions, the memo on an entity is persisted in Hedera state.
+Entities (such as accounts, topics, and tokens) on Hedera have a memo field, allowing for an arbitrary string (less than 100 bytes) to be attached to the entity. Entity memos are distinct from memos on transactions, the memo on an entity is persisted in Hedera state.
 
 Decentralized Identifiers (DIDs) [0], as supported by the Hedera DID Method [1], provide a useful format for populating the memo fields. 
 
