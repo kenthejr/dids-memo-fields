@@ -1,7 +1,7 @@
 ---
 hip: 55
 title: Using DIDs in memo fields
-author: paulk@hedera.com 
+author: paul@hedera.com 
 type: Standards Track
 category: Application
 status: Draft
