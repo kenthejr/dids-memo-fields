@@ -76,27 +76,37 @@ This HIP is entirely opt-in, and does not break any existing functionality.
 
 ## Security Implications
 
-Inserting a DID into an entity's memo field can establish an association between the entity and the controller of the DID, and so a connection between the entity and uses of that DID. For instance, if the same DID is used in a Verifiable Credential, then the identity attributes within that credential may be attributed to the controller of the entity. 
+Inserting a DID into an entity's memo field establishes an association between the entity and the controller of the DID, and so a connection between the entity and uses of that DID. For instance, if the same DID is used in a Verifiable Credential, then the identity attributes within that credential may be attributed to the controller of the entity. 
+
+The controller of the DID lays claim to the DID, and so the association to the Hedera entity, with a digital signature using the private key associated with the DID. 
 
 We consider different attacks against the association
 
-### Someone modifies the memo field
+### An attacker modifies the memo field to a different DID
 
 The attacker is able to change the value of the DID within an entity's memo field to a DID the attacker controls, thereby claiming the association.
 
-### Someone switches the DID Document to which the DID resolves
+When a Hedera entity is created or updated, the keys that are authorized to osubsequently make changes to the entity can be stipulated. if no such keys are stipulated, then the entity is immutable and the attack is thwarted. If a key is stipulated, then only the admin/owner of the entity can modify the entity and change the memo field. 
 
-The attacker is able to change the DID Document to which an existing DID resolves into one they control, and thereby effectively claim the association as the attacker would be able to demonstrate control of the DID by a signature with their private key. The origional controller of tteh DID would be unable to.
+Hedera supports multi-signature authorization rules on entity modifications - an entity can be created such that multiple keys must sign a modification like changing the memo field and thereby offering greater resistance to this attack.
 
-The defense is that only the private key associated with the DID is able to update the DID Document - the update message (as per the Hedera DID method) must have a signature 
+### An attacker switches the DID Document that the DID resolves to
+
+The attacker is able to change the DID Document to which a DID in the memo field of an entity resolves into a DID Document that they control, and thereby effectively claim the association. The attacker would be able to demonstrate control of the DID by a signature with their private key whilst the origional valid controller of the DID would be unable to.
+
+The defense is that only the private key associated with the DID is able to update the DID Document - the update message (as per the Hedera DID method) must have a signature.
 
 > signature - A Base64-encoded signature that is a result of signing a minified JSON string of a message attribute with a private key corresponding to the public key #did-root-key in the DID document.
 
-### Someone uses someone's else's DID in another entity
+Additionally, in the Hedera DID method, the DID itself is derived from the public key. A verifier would be able to determine that the public key of the attacker did not correspond to the claimed DID.
+
+### An attacker reuses a DID in their entity
 
 The attacker creates a Hedera entity and includes some other actor's DID in the memo field in an attempt to falsely associate the new entity with that DID.
 
 Nothing prevents the attacker from reusing a DID in this manner - the memo fields on entities are not guaranteed to be unique. 
+
+The attacker will however not have the private key associated with the DID 
 
 ## How to Teach This
 
