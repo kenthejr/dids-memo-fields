@@ -92,9 +92,9 @@ Hedera supports multi-signature authorization rules on entity modifications - an
 
 ### An attacker switches the DID Document that the DID resolves to
 
-The attacker is able to change the DID Document to which a DID in the memo field of an entity resolves into a DID Document that they control, and thereby effectively claim the association. The attacker would be able to demonstrate control of the DID by a signature with their private key whilst the origional valid controller of the DID would be unable to.
+The attacker is able to change the DID Document to which a DID in the memo field of an entity resolves into a DID Document that they control, and thereby effectively claim the association. 
 
-The defense is that only the private key associated with the DID is able to update the DID Document - the update message (as per the Hedera DID method) must have a signature.
+The attack is thwarted because only the private key associated with the DID is able to update the DID Document - the update message (as per the Hedera DID method) must have a signature created with the private key associated with the DID's public key.
 
 > signature - A Base64-encoded signature that is a result of signing a minified JSON string of a message attribute with a private key corresponding to the public key #did-root-key in the DID document.
 
@@ -102,11 +102,13 @@ Additionally, in the Hedera DID method, the DID itself is derived from the publi
 
 ### An attacker reuses a DID in their entity
 
-The attacker creates a Hedera entity and includes some other actor's DID in the memo field in an attempt to falsely associate the new entity with that DID.
+The attacker creates a Hedera entity and includes some other actor's DID in the memo field in an attempt to falsely associate the new entity with that other DID.
 
 Nothing prevents the attacker from reusing a DID in this manner - the memo fields on entities are not guaranteed to be unique. 
 
-The attacker will however not have the private key associated with the DID 
+The attacker will however not have the private key associated with the DID and so will not be able to demonstrate control of the DID. 
+
+Note that it is not sufficient to have the private key sign the DID Document itself at the time of creation.
 
 ## How to Teach This
 
