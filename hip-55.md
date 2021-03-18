@@ -56,9 +56,10 @@ A DID complying with the Hedera DID method is composed of the following paramete
  - the string 'did:hedera'
  - a Hedera network identifier, e.g. 'mainnet'
  - the base58-encoded SHA-256 hash of a DID root public key
- - a file identifier for the Hedera FileID of a the application network's address book file listing the member nodes and their IP ddresses
+ - a Hedera file identifier of the application network's address book file listing the member nodes and their IP addresses
+ - an optional Hedera topic identifier on which the DID document was registered
 
-Below is an example Hedera DID
+Below is an example Hedera DID in which the topic identifier parameter is omitted.
 
 > did:hedera:mainnet:7Prd74ry1Uct87nZqL3ny7aR7Cg46JamVbJgk8azVgUm;hedera:mainnet:fid=0.0.123
 
