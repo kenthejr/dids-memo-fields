@@ -89,7 +89,44 @@ This secure mapping between entity and VC could be used to
 - assert the environmental energy generation characteristics of an inverter, and its corresponding REC tokens 
 - assert the ?????
 
+When a verifier is presented with a VC, it should be possible to discover the Hedera entity to which the VC was issued. 
 
+The issuer of the VC should include the Hedera entity identifier as a claim within the VC.
+
+An example VC 
+
+`{
+  "@context": [
+    "https://www.w3.org/2018/credentials/v1",
+  ], 
+  "id": "http://example.edu/credentials/1872",
+  "type": ["VerifiableCredential", 
+           “HederaEntityCredential”],
+  "issuer": “did”:hedera:mainnet:dfjkghkdjfgjdjkfgjdnfjgdfg,
+  "issuanceDate": "2021-01-01T19:73:24Z", 
+  "credentialSubject": {
+    "id": "did:hedera:mainnet:dkfgmkdfghdkjfgh”,
+    “HederaEntityID: {
+      "id": "did:example:c276e12ec21ebfeb1f712ebc6f1",
+      "name": [{
+        "value": “0.0.”123456,
+        "lang": "en"
+      }
+    }
+  },
+  
+  "proof": {
+    
+    "type": "RsaSignature2018",  
+    "created": "2017-06-18T21:19:10Z",  
+    "proofPurpose": "assertionMethod",  
+    "verificationMethod": "https://example.edu/issuers/keys/1",  
+    "jws": "eyJhbGciOiJSUzI1NiIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19..TCYt5X
+      sITJX1CxPCT8yAV-TVkIEq_PbChOMqsLfRoPsnsgw5WEuts01mq-pQy7UJiN5mgRxD-WUc
+      X16dUEMGlv50aqzpqh4Qktb3rk-BuQy72IFLOqV0G_zS245-kronKb78cPN25DGlcTwLtj
+      PAYuNzVBAh4vGHSrQyHUdBBPM"
+  }
+}`
 
 ## Backwards Compatibility
 
