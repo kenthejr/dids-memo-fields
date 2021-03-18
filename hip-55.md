@@ -95,7 +95,7 @@ The issuer of the VC should include the Hedera entity identifier as a claim with
 
 An example VC 
 
-`{
+```{
   "@context": [
     "https://www.w3.org/2018/credentials/v1",
   ], 
@@ -126,7 +126,7 @@ An example VC
       X16dUEMGlv50aqzpqh4Qktb3rk-BuQy72IFLOqV0G_zS245-kronKb78cPN25DGlcTwLtj
       PAYuNzVBAh4vGHSrQyHUdBBPM"
   }
-}`
+}```
 
 ## Backwards Compatibility
 
