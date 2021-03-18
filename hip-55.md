@@ -51,7 +51,16 @@ When used in a memo field of a Hedera entity, DIDs could be used to
 
 ### Syntax
 
-talk about the structure of a Hedera DID, its components, its size and how to place within a memo.
+A DID complying with the Hedera DID method is composed of the following parameters separate by a ':'
+
+ - the string 'did:hedera'
+ - a Hedera network identifier, e.g. 'mainnet'
+ - the base58-encoded SHA-256 hash of a DID root public key
+ - a file identifier for the Hedera FileID of a the application network's address book file listing the member nodes and their IP ddresses
+
+Below is an example Hedera DID
+
+> did:hedera:mainnet:7Prd74ry1Uct87nZqL3ny7aR7Cg46JamVbJgk8azVgUm;hedera:mainnet:fid=0.0.123
 
 ### Processes
 
