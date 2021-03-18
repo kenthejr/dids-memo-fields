@@ -91,9 +91,9 @@ This secure mapping between entity and VC could be used to
 
 When a verifier is presented with a VC, it should be possible to discover the Hedera entity to which the VC was issued. 
 
-The issuer of the VC should include the Hedera entity identifier as a claim within the VC.
+The issuer of the VC should include the Hedera entity identifier as a HederaEntityID claim within the VC.
 
-An example VC 
+An example VC with a HederaEntityID claim identifying the Hedera entity to which is was issued.
 
 ```{
   "@context": [
