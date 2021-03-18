@@ -79,6 +79,17 @@ Below is an example Hedera DID in which the topic identifier parameter is omitte
  4. Extract public key from DID Document to verify signatures 
  5. Query listed endpoints for associated data, for instance a Verified Credential  
 
+### Verifiable Credentials
+
+Once a DID has been securely associated with a Hedera entity, then a Verifiable Credential (VC) issued to that DID can be interpreted as having been issued to the entity itself, or the actor that controls the entity. The VC can therefore be seen as having been issued to the entity. 
+
+This secure mapping between entity and VC could be used to
+
+- assert the KYC status of the owner of a Hedera account
+- assert the environmental energy generation characteristics of an inverter, and its corresponding REC tokens 
+- assert the ?????
+
+
 
 ## Backwards Compatibility
 
