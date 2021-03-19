@@ -15,7 +15,7 @@ superseded-by:
 
 ## Abstract
 
-This specification provides a standard way to use Decentralized Identifiers (DIDs) within the memo fields of Hedera state entity memo fields. 
+This specification provides a standard way to use Decentralized Identifiers (DIDs) within the memo fields of Hedera state entity memo fields and thereby support the issuance of Verifiable Credentials about Hedera state entities. 
 
 ## Motivation
 
@@ -44,14 +44,26 @@ When used in a memo field of a Hedera entity, DIDs could be used to
 - Link a Hedera entity to an external service, for instance a DID on an HTS token could represent the KYC provider that administers the KYC flag on user accounts 
 - Link a Hedera entity to a different public key than of the owner/admin – enabling off-ledger authenticated interactions between that owner and other parties (without reusing Hedera keys) 
 - Link two different Hedera entities, for instance an HCS topic and a corresponding HTS token 
-- Link a Hedera entity to appropriate certifications about the actors that own or mange that entity, for instance, the renewable energy certifications (using the Verifiable Credentials [2] standard) of an inverter as validated by a 3rd party
+- Link a Hedera entity to appropriate certifications about the actors that own or manage that entity, for instance, the renewable energy certifications (using the Verifiable Credentials [2] standard) of an inverter as validated by a 3rd party
 
 
 ## Specification
 
-### Syntax
+### Terminology
 
-A DID complying with the Hedera DID method is composed of the following parameters separate by a ':'
+- Hedera state entity
+- State entity admin/controller
+- DID 
+- DID Controller
+- DID Document
+- Verifiable Credential
+- Verifiable Credential Subject
+- Verifier
+- Issuer
+
+### DID Size
+
+A DID complying with the Hedera DID method is composed of the following parameters separated by a ':'
 
  - the string 'did:hedera'
  - a Hedera network identifier, e.g. 'mainnet'
@@ -63,9 +75,22 @@ Below is an example Hedera DID in which the topic identifier parameter is omitte
 
 > did:hedera:mainnet:7Prd74ry1Uct87nZqL3ny7aR7Cg46JamVbJgk8azVgUm;hedera:mainnet:fid=0.0.123
 
+A Hedera entity memo field can be at most 100 bytes and so the DIDs must be less than this size. 
+
+The above DID is 90 bytes. 
+
+To ensure that DIDs do not exceed the 100 byte maximum, the optional tid topic identifier should not be used. 
+
+
 ### Processes
 
-#### Binding DID to Hedera entity 
+#### Associating a DID to a Hedera entity 
+
+A DID is associated with an entity by specifying the DID as the value of the memo field for that entity.
+
+The DID can be associated either when the entity is first created or through a subsequent entity. If the entity is immutable (with no admin keys specified) then the association must happen on the entity creation. 
+
+If the DID is registered into an appnet via a HCS message (as per the Hedera DID method), it can occur either before or after the association with the entity. 
 
 1. Create key pair and associated DID as per Hedera DID Method 
 2. Register DID into appnet with HCS message carrying DID Document against appropriate HCS topic as per Hedera DID Method 
@@ -143,17 +168,19 @@ We consider different attacks against the association
 
 ### An attacker modifies the memo field to a different DID
 
-The attacker is able to change the value of the DID within an entity's memo field to a DID the attacker controls, thereby claiming the association.
+Description - attacker is able to change the value of the DID within an entity's memo field to a DID the attacker controls, thereby claiming the association. Whenever some other actor queries the entity (using a TokenGetInfo for instance, the fraudulent DID would be returned as the value of the memo field in the response. That DID would be resolved into the attacker's DID Document and public key. As the attacker has the corresponding private key, they would be able to demonstrate they control the public key and so DID - effectively impersonating the valid entity owner.
 
-When a Hedera entity is created or updated, the keys that are authorized to osubsequently make changes to the entity can be stipulated. if no such keys are stipulated, then the entity is immutable and the attack is thwarted. If a key is stipulated, then only the admin/owner of the entity can modify the entity and change the memo field. 
+Prevention - When a Hedera entity is created or updated, the keys that are authorized to osubsequently make changes to the entity can be stipulated. If no such keys are stipulated, then the entity is immutable and the attack is thwarted as the memo field cannot be changed. 
+
+If a key is stipulated, then only the admin/owner of the entity with the private key corresponding to the stipulated public key can modify the entity and change the memo field. 
 
 Hedera supports multi-signature authorization rules on entity modifications - an entity can be created such that multiple keys must sign a modification like changing the memo field and thereby offering greater resistance to this attack.
 
 ### An attacker switches the DID Document that the DID resolves to
 
-The attacker is able to change the DID Document to which a DID in the memo field of an entity resolves into a DID Document that they control, and thereby effectively claim the association. 
+Description - The attacker is able to change the DID Document to which a DID in the memo field of an entity resolves into a DID Document that they control, and thereby effectively claim the association. The attacker sends an Update message via HCS with a new version of the DID Document, one containing the attacker's public key and not that of the valid DID controller.  The the members of the appnet receive this new DID Document and replace the existing valid DID Document with the new version. When subsequently asked to resolve the DID, the appnet members return the fraudulent DID Document, allowing the attacker to impersonate the valid DID controller.
 
-The attack is thwarted because only the private key associated with the DID is able to update the DID Document - the update message (as per the Hedera DID method) must have a signature created with the private key associated with the DID's public key.
+Prevention - The attack is prevented because only the private key associated with the DID is able to update the DID Document - the update message (as per the Hedera DID method) must have a signature created with the private key associated with the DID's public key.
 
 > signature - A Base64-encoded signature that is a result of signing a minified JSON string of a message attribute with a private key corresponding to the public key #did-root-key in the DID document.
 
@@ -161,9 +188,9 @@ Additionally, in the Hedera DID method, the DID itself is derived from the publi
 
 ### An attacker reuses a DID in their entity
 
-The attacker creates a Hedera entity and includes some other actor's DID in the memo field in an attempt to falsely associate the new entity with that other DID.
+Description - An attacker creates a Hedera entity and includes some other actor's DID in the memo field in an attempt to falsely associate the new entity with that other DID.
 
-Nothing prevents the attacker from reusing a DID in this manner - the memo fields on entities are not guaranteed to be unique. 
+Prevention - Nothing prevents the attacker from reusing a DID in this manner - the memo fields on entities are not guaranteed to be unique. 
 
 The attacker will however not have the private key associated with the DID and so will not be able to demonstrate control of the DID. 
 
