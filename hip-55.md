@@ -15,7 +15,7 @@ superseded-by:
 
 ## Abstract
 
-This specification provides a standard way to use Decentralized Identifiers (DIDs) within the memo fields of Hedera state entity memo fields and thereby support the issuance of Verifiable Credentials about Hedera state entities. 
+This specification provides a standard way to use Decentralized Identifiers (DIDs) within the memo fields of Hedera state entity memo fields and thereby support the issuance of Verifiable Credentials about Hedera state entities. Just as the owner of a Hedera entity demonstrates that ownership and so claims associated authorizations via signatures with the private key(s) corresponding to the entity, a controller of a DID demonstrates that control via signatures with (likely) a different private key. Consequently, the DID controller can, when engaging in off-Hedera interactions, effectively demonstrate their association to the Hedera state entity without any on-Hedera transaction.
 
 ## Motivation
 
