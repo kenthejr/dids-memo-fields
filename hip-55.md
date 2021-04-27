@@ -1,40 +1,36 @@
 ---
 hip: 0000
-title: Using DIDs in Hedera Entity memo fields
+title: Decentralized Identifiers in Memo Fields
 author: author@author.com 
 type: Standards Track
 category: Application
 status: Draft
 created: 2020-3-16
 discussions-to: 
-updated: 2020-3-16
-requires:
-replaces:
-superseded-by:
+updated: 2021-4-27
 ---
 
 ## Abstract
 
-This specification provides a standard way to use Decentralized Identifiers (DIDs) within the memo fields of Hedera state entity memo fields and thereby support the issuance of Verifiable Credentials about Hedera state entities. Just as the owner of a Hedera entity demonstrates that ownership and so claims associated authorizations via signatures with the private key(s) corresponding to the entity, a controller of a DID demonstrates that control via signatures with (likely) a different private key. Consequently, the DID controller can, when engaging in off-Hedera interactions, effectively demonstrate their association to the Hedera state entity without any on-Hedera transaction.
+This specification provides a standard way to use Decentralized Identifiers (DIDs) within Hedera state entity memo fields and thereby support the issuance of Verifiable Credentials about Hedera state entities. Just as the owner of a Hedera entity demonstrates that ownership and so claims associated authorizations via signatures with the private key(s) corresponding to the entity, a controller of a DID demonstrates that control via signatures with (likely) a different private key. Consequently, the DID controller can, when engaging in off-Hedera interactions, effectively demonstrate their association to the Hedera state entity without any on-Hedera transaction.
 
 ## Motivation
 
-Entities (such as accounts, topics, and tokens) on Hedera have a memo field, allowing for an arbitrary string (less than 100 bytes) to be attached to the entity. Entity memos are distinct from memos on transactions, a memo on an entity is persisted in Hedera state.
+Entities (such as accounts, topics, and tokens) on Hedera have a memo field, allowing for an arbitrary string of less than 100 bytes to be attached to the entity. Entity memos are distinct from memos on transactions. A memo on an entity is persisted in Hedera state.
 
 Decentralized Identifiers (DIDs) [0], as supported by the Hedera DID Method [1], provide a useful format for populating the memo fields. 
 
 According to the W3C, a DID, is “a globally unique identifier that does not require a centralized registration authority because it is registered with distributed ledger technology or other form of decentralized network.”
 
-DIDs can be dereferenced or resolved to a DID Document - a set of data that describes the subject of a DID, including mechanisms, such as public keys that the DID subject can use to authenticate itself and prove their association with the DID. DID Documents are graph-based data structures that are typically expressed using JSON-LD.
+DIDs can be dereferenced or resolved to a DID Document - a set of data that describes the subject of a DID, including mechanisms like public keys that the DID subject can use to authenticate itself and prove association with the DID. DID Documents are graph-based data structures that are typically expressed using JSON-LD.
 
-Relative to other identifier formats, DIDs have the advantages of  
+Relative to other identifier formats, DIDs have the advantages of being:
 
-- Standardized 
-- Guaranteed global uniqueness 
-- Resolvable into a DID Document carrying useful metadata , e.g. keys , endpoints, etc. 
-- Can be cryptographically ‘claimed’ by creating a signature with a private key that corresponds to the public key & signature within the DID Document   
-- When their lifecycle is tracked via HCS as in the Hedera DID Method, provable provenance of changes to the DID Document, e.g. for key rotation, introduction of additional endpoints etc. 
-
+- standardized 
+- guaranteed global uniqueness
+- resolvable into a DID Document carrying useful metadata (e.g. keys, endpoints, etc)
+- cryptographically ‘claimable’ by creating a signature with a private key that corresponds to the public key & signature within the DID Document
+- provable when their lifecycle is tracked via HCS as in the Hedera DID Method
 
 ## Rationale
 
@@ -45,7 +41,6 @@ When used in a memo field of a Hedera entity, DIDs could be used to
 - Link a Hedera entity to a different public key than of the owner/admin – enabling off-ledger authenticated interactions between that owner and other parties (without reusing Hedera keys) 
 - Link two different Hedera entities, for instance an HCS topic and a corresponding HTS token 
 - Link a Hedera entity to appropriate certifications about the actors that own or manage that entity, for instance, the renewable energy certifications (using the Verifiable Credentials [2] standard) of an inverter as validated by a 3rd party
-
 
 ## Specification
 
@@ -80,7 +75,6 @@ A Hedera entity memo field can be at most 100 bytes and so the DIDs must be less
 The above DID is 90 bytes. 
 
 To ensure that DIDs do not exceed the 100 byte maximum, the optional tid topic identifier should not be used. 
-
 
 ### Processes
 
@@ -170,7 +164,7 @@ We consider different attacks against the association
 
 Description - attacker is able to change the value of the DID within an entity's memo field to a DID the attacker controls, thereby claiming the association. Whenever some other actor queries the entity (using a TokenGetInfo for instance, the fraudulent DID would be returned as the value of the memo field in the response. That DID would be resolved into the attacker's DID Document and public key. As the attacker has the corresponding private key, they would be able to demonstrate they control the public key and so DID - effectively impersonating the valid entity owner.
 
-Prevention - When a Hedera entity is created or updated, the keys that are authorized to osubsequently make changes to the entity can be stipulated. If no such keys are stipulated, then the entity is immutable and the attack is thwarted as the memo field cannot be changed. 
+Prevention - When a Hedera entity is created or updated, the keys that are authorized to subsequently make changes to the entity can be stipulated. If no such keys are stipulated, then the entity is immutable and the attack is thwarted as the memo field cannot be changed. 
 
 If a key is stipulated, then only the admin/owner of the entity with the private key corresponding to the stipulated public key can modify the entity and change the memo field. 
 
